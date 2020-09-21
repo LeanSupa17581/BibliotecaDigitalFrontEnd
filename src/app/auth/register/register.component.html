@@ -1,0 +1,39 @@
+<div class="container p-4">
+  <div class="col-lg-4 mx-auto">
+    <div class="card">
+        <div class="card-header">
+          Register
+        </div>
+        <div class="card-body">
+          <form #frmRegister="ngForm" (ngSubmit) = "onRegister(frmRegister)">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Carnet / CUI</label>
+              <input type="text" class="form-control" #carnet_CUI name="carnet_CUI" aria-describedby="carnet_CUIHelp" placeholder="Carnet / CUI" ngModel required>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Nombres</label>
+              <input type="text" class="form-control" #nombre name="nombre" aria-describedby="nombreHelp" placeholder="Nombres" ngModel required>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Apellidos</label>
+              <input type="text" class="form-control" #apellido name="apellido" aria-describedby="UserHelp" placeholder="Apellidos" ngModel required>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Usuario</label>
+              <input type="text" class="form-control" #usuario name="usuario" aria-describedby="UserHelp" placeholder="Usuario" ngModel required>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Rol</label>
+              <input type="text" class="form-control" #rol name="rol" aria-describedby="rolHelp" placeholder="Rol" ngModel required>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Password</label>
+              <input type="password" class="form-control" #password name="password" aria-describedby="passwordHelp" placeholder="Password" ngModel required>
+            </div>
+            <input type="submit" class="btn btn-outline-success" value="Register">
+            <a href="auth/usuarios" class="btn btn-outline-danger">Cancelar</a>
+          </form>
+        </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BibliotecaDigital</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="auth/homeAdmin">Biblioteca Digital
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-book" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M1 2.828v9.923c.918-.35 2.107-.692 3.287-.81 1.094-.111 2.278-.039 3.213.492V2.687c-.654-.689-1.782-.886-3.112-.752-1.234.124-2.503.523-3.388.893zm7.5-.141v9.746c.935-.53 2.12-.603 3.213-.493 1.18.12 2.37.461 3.287.811V2.828c-.885-.37-2.154-.769-3.388-.893-1.33-.134-2.458.063-3.112.752zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+            </svg>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+      
+          <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto ml-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="auth/homeAdmin">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="auth/usuarios">Usuarios</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="auth/libros">Libros</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="auth/revistas">Revistas</a>
+              </li>
+              <li ngbDropdown class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>Opciones</a>
+                <div ngbDropdownMenu  class="dropdown-menu">
+                  <a class="dropdown-item" (click)= "Logout()">Logout</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+    <div class="constainer p-4">
+      <h1>Libros</h1>
+      <a class="btn btn-outline-success" (click) = "verRegister(Register)">Agregar Libros</a>
+        
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover row-border hover">
+            <thead>
+              <tr>
+                <th scope="col">No.</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Título</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Edición</th>
+                <th scope="col">Copias</th>
+                <th scope="col">Libros Disponibles</th>
+                <th scope="col">Palabras Clave</th>
+                <th scope="col">Temas</th>
+                <th scope="col">Imagen</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor = "let libro of libros; index as i" class="table-dark">
+                <td scope="row">{{i + 1}}</td>
+                <td>{{libro.autor}}</td>
+                <td>{{libro.titulo}}</td>
+                <td>{{libro.descripcion}}</td>
+                <td>{{libro.edicion}}</td>
+                <td>{{libro.copias}} <a (click)= "verCopias(libro._id, AgregarCopias)" class="btn btn-outline-warning btn-circle-sm">
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                  </svg>
+                </a></td>
+                <td>{{libro.disponibles}}</td>
+                <td><a (click)= "PalabrasLibro(libro._id)" class="btn btn-outline-warning">Palabras Clave</a></td>
+                <td><a (click)= "TemasLibro(libro._id)" class="btn btn-outline-warning">Temas</a></td>
+                <td>
+                  <div class="text-center">
+                    <img [src]="'http://localhost:3000/api/obtenerImagen/' + libro.imagen" class="figure-img img-fluid rounded img-thumbnail" style="width: 50%; height: auto;">
+                  </div>
+                </td>
+                <td>
+                  <a (click)= "verEdit(libro._id, EditLibro)" class="btn btn-outline-info btn-circle">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                    </svg>
+                  </a>
+                  <a (click)= "verDelete(libro._id, EliminarLibro)" class="btn btn-outline-danger btn-circle">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                    </svg>
+                  </a>
+                </td>
+              </tr>
+              </tbody>
+          </table>
+    </div>
+    <ng-template #AgregarCopias let-modal>
+      <div class="modal-header">
+        <h1 class="modal-title">Agregar Copias de Libro</h1>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-dismissible alert-danger" *ngIf = "isError">
+          <strong>{{msgError}}</strong>
+        </div>
+        <form #frmCopias="ngForm">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Copias</label>
+            <input type="number" class="form-control" #copias="ngModel" name="copias" aria-describedby="copiasHelp" placeholder="Copias" ngModel required>
+          </div>
+          <div class="alert alert-dismissible alert-danger" *ngIf = "copias.touched && !copias.valid">
+            <strong *ngIf= "copias.errors.required">Las copias son requeridas</strong>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-success" (click)= "onAddCopias(frmCopias ,copiasLibro._id, copias, Message)">Agregar</button>
+        <button class="btn btn-secondary" type="button" data-dismiss="modal" (click)="close()">Close</button>
+      </div>
+    </ng-template>
+    <ng-template #EliminarLibro let-modal>
+      <div class="modal-header">
+        <h1 class="modal-title">¿Está seguro que desea eliminar este Libro?</h1>
+      </div>
+      <div class="modal-body">
+        <form #frmEdit="ngForm">
+          <div class="form-group">
+              <label for="exampleInputEmail1">Autor</label>
+              <input type="text" class="form-control" readonly [(ngModel)]="libroDelete.autor" #autor name="autor" aria-describedby="autorHelp" placeholder="Autor" ngModel required>
+          </div>
+          <div class="form-group">
+              <label for="exampleInputEmail1">Título</label>
+              <input type="text" class="form-control" readonly [(ngModel)]="libroDelete.titulo" #titulo name="titulo" aria-describedby="tituloHelp" placeholder="Título" ngModel required>
+          </div>
+          <div class="form-group">
+              <label for="exampleInputEmail1">Edición</label>
+              <input type="text" class="form-control" readonly [(ngModel)]="libroDelete.edicion" #edicion name="edicion" aria-describedby="edicionHelp" placeholder="Edición" ngModel required>
+          </div>
+          <div class="form-group">
+              <label for="exampleInputEmail1">Copias</label>
+              <input type="number" class="form-control" readonly [(ngModel)]="libroDelete.copias" #copias name="copias" aria-describedby="copiasHelp" placeholder="Copias" ngModel required>
+          </div>
+          <div class="form-group">
+              <label for="exampleInputEmail1">Descripción</label>
+              <textarea class="form-control" rows="2" readonly [(ngModel)]="libroDelete.descripcion" #descripcion name="descripcion" aria-describedby="descripcionHelp" placeholder="Descripción" ngModel required></textarea>
+          </div>
+          <div class="form-group">
+              <label for="exampleInputEmail1">Imagen</label>
+              <img [src]="'http://localhost:3000/api/obtenerImagen/' + libroDelete.imagen" alt="No Image" class="img-fluid">
+          </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-danger" (click)= "delete(libroDelete._id, Message)">Delete</button>
+        <button class="btn btn-secondary" type="button" data-dismiss="modal" (click)="close()">Close</button>
+      </div>
+    </ng-template>
+    <ng-template #Message let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title">Mensaje</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onClose()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{mensaje}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="onClose()">Close</button>
+      </div>
+    </ng-template>
+    <ng-template #Register let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title">Register</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-dismissible alert-danger" *ngIf = "isError">
+          <strong>{{msgError}}</strong>
+        </div>
+        <form #frmAgregar="ngForm" class="form-hoeizontal">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Autor</label>
+            <input type="text" class="form-control" #autor="ngModel" name="autor" aria-describedby="autorHelp" placeholder="Autor" ngModel required>
+          </div>
+          <div class="alert alert-dismissible alert-danger" *ngIf = "autor.touched && !autor.valid">
+            <strong *ngIf= "autor.errors.required">El autor es requerido</strong>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Título</label>
+            <input type="text" class="form-control" #titulo="ngModel" name="titulo" aria-describedby="tituloHelp" placeholder="Título" ngModel required>
+          </div>
+          <div class="alert alert-dismissible alert-danger" *ngIf = "titulo.touched && !titulo.valid">
+            <strong *ngIf= "titulo.errors.required">El título es requerido</strong>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Edición</label>
+            <input type="text" class="form-control" #edicion="ngModel" name="edicion" aria-describedby="edicionHelp" placeholder="Edición" ngModel required>
+          </div>
+          <div class="alert alert-dismissible alert-danger" *ngIf = "edicion.touched && !edicion.valid">
+            <strong *ngIf= "edicion.errors.required">El edición es requerido</strong>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Palabras Clave</label>
+            <input type="text" class="form-control" #palabra="ngModel" name="palabra" aria-describedby="palbraHelp" placeholder="Separa las palabras por una (,)" ngModel required>
+          </div>
+          <div class="alert alert-dismissible alert-danger" *ngIf = "palabra.touched && !palabra.valid">
+            <strong *ngIf= "palabra.errors.required">La palabras clave son requeridas</strong>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Temas</label>
+            <input type="text" class="form-control" #tema="ngModel" name="tema" aria-describedby="temaHelp" placeholder="Separa los temas por una (,) " ngModel required>
+          </div>
+          <div class="alert alert-dismissible alert-danger" *ngIf = "tema.touched && !tema.valid">
+            <strong *ngIf= "tema.errors.required">El tema es requerido</strong>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Copias</label>
+            <input type="number" class="form-control" #copias="ngModel" name="copias" aria-describedby="copiasHelp" placeholder="Copias" ngModel required>
+          </div>
+          <div class="alert alert-dismissible alert-danger" *ngIf = "copias.touched && !copias.valid">
+            <strong *ngIf= "copias.errors.required">Las copias son requeridas</strong>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Descripción</label>
+            <textarea class="form-control" rows="2" #descripcion="ngModel" name="descripcion" aria-describedby="descripcionHelp" placeholder="Descripción" ngModel required></textarea>
+          </div>
+          <div class="alert alert-dismissible alert-danger" *ngIf = "descripcion.touched && !descripcion.valid">
+            <strong *ngIf= "descripcion.errors.required">La descripción es requerida</strong>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Imagen</label>
+            <input type="file" class="d-none" (change)= "imageSelected($event)" #imageInput required>
+            <img [src]="image || 'assets/no_image.png'" alt="No Image" class="img-fluid" (click)="imageInput.click()">
+          </div>
+          <div class="alert alert-dismissible alert-danger" *ngIf = "imageInput.touched && !imageInput.valid">
+            <strong *ngIf= "imageInput.errors.required">La imagen es requerida</strong>
+          </div>
+        </form>
+        <div class="alert alert-dismissible alert-danger" *ngIf = "isError">
+          <strong>{{msgError}}</strong>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-success" (click) = "onAddLibro(frmAgregar, autor, titulo, edicion, palabra, tema, copias, descripcion, Message)">Register</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="close()">Close</button>
+      </div>
+    </ng-template>
+    <ng-template #EditLibro let-modal>
+      <div class="modal-header">
+        <h1 class="modal-title">Actualizar Libro</h1>
+      </div>
+      <div class="modal-body">
+        <form #frmEdit="ngForm" (ngSubmit) = "onSave(autor, titulo, edicion, copias, descripcion)">
+          <div class="form-group">
+              <label for="exampleInputEmail1">Autor</label>
+              <input type="text" class="form-control" [(ngModel)]="libroEdit.autor" #autor name="autor" aria-describedby="autorHelp" placeholder="Autor" ngModel required>
+          </div>
+          <div class="form-group">
+              <label for="exampleInputEmail1">Título</label>
+              <input type="text" class="form-control" [(ngModel)]="libroEdit.titulo" #titulo name="titulo" aria-describedby="tituloHelp" placeholder="Título" ngModel required>
+          </div>
+          <div class="form-group">
+              <label for="exampleInputEmail1">Edición</label>
+              <input type="text" class="form-control" [(ngModel)]="libroEdit.edicion" #edicion name="edicion" aria-describedby="edicionHelp" placeholder="Edición" ngModel required>
+          </div>
+          <div class="form-group">
+              <label for="exampleInputEmail1">Copias</label>
+              <input type="number" class="form-control" readonly [(ngModel)]="libroEdit.copias" #copias name="copias" aria-describedby="copiasHelp" placeholder="Copias" ngModel required>
+          </div>
+          <div class="form-group">
+              <label for="exampleInputEmail1">Descripción</label>
+              <textarea class="form-control" rows="2" [(ngModel)]="libroEdit.descripcion" #descripcion name="descripcion" aria-describedby="descripcionHelp" placeholder="Descripción" ngModel required></textarea>
+          </div>
+          <div class="form-group">
+              <label for="exampleInputEmail1">Imagen</label>
+              <input type="file" class="d-none" (change)= "imageSelected($event)" #imageInput required>
+              <img [src]="image || 'http://localhost:3000/api/obtenerImagen/' + libroEdit.imagen" alt="No Image" class="img-fluid" (click)="imageInput.click()">
+          </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-success" (click)= "onSave(libroEdit._id, Message)">Actualizar</button>
+        <button class="btn btn-secondary" type="button" data-dismiss="modal" (click)="close()">Close</button>
+      </div>
+    </ng-template>
+</body>
+</html>

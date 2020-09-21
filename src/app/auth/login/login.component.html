@@ -1,0 +1,46 @@
+<div class="container p-4">
+  <div class="col-lg-4 mx-auto">
+    <div class="card">
+        <div class="card-header">
+          Login
+        </div>
+        <div class="alert alert-dismissible alert-danger" *ngIf = "isError">
+          <strong>{{msgError}}</strong>
+        </div>
+        <div class="card-body">
+          <form #frmLogin="ngForm" (submit) = "onLogin(frmLogin, Message)">
+            <div class="form-group">
+              <label for="exampleInputEmail1">Usuarios</label>
+              <input type="text" class="form-control" #usuario= "ngModel" name="usuario" aria-describedby="UserHelp" placeholder="Usuario" ngModel required>
+            </div>
+            <div class="alert alert-dismissible alert-danger" *ngIf = "usuario.touched && !usuario.valid">
+              <strong *ngIf= "usuario.errors.required">El usuario es requerido</strong>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" name="password" #password= "ngModel" placeholder="Password" ngModel required>
+            </div>
+            <div class="alert alert-dismissible alert-danger" *ngIf = "password.touched && !password.valid">
+              <strong *ngIf= "password.errors.required">El password es requerido</strong>
+            </div>
+            <input type="submit" class="btn btn-outline-success" value="Login">
+            <a href="auth/home" class="btn btn-outline-danger">Cancelar</a>
+          </form>
+        </div>
+    </div>
+  </div>
+</div>
+<ng-template #Message let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Mensaje</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>{{mensaje}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.dismiss()">Close</button>
+  </div>
+</ng-template>
